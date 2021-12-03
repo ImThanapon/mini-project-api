@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript API Call</title>
+</head>
+<body>
+    <!-- นำเข้า CDN ของ Axios -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script> 
+    <!-- นำเข้า CDN ของ Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        var url_api = 'https://covid19.ddc.moph.go.th/api/Cases/today-cases-all';
+        //วิธีที่ 1 XMLHttpRequest
+        let request = new XMLHttpRequest(); 
+        request.open('GET','https://covid19.ddc.moph.go.th/api/Cases/today-cases-all')
+        request.send();
+        request.onload = () => {
+            //console.log(request);
+            if(request.status === 200){
+                let dataCovid = JSON.parse(request.response);
+                console.log(dataCovid[0]['new_case'])
+            }else{
+                console.log('error ${request.status} ${request.statusText}');
+            }
+        }
+
+        // //วิธีที่ 2 JQuery
+        // $(document).ready(function() {
+        //     $.ajax({
+        //         url: "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all",
+        //         type:'GET',
+        //         success: function(result) {
+        //             console.log(result);
+        //         },
+        //         error : function(error){
+        //             console.log(error);
+        //         }
+        //     })
+        // })
+
+        // //วิธีที่ 3 Fetch
+        fetch(url_api).
+        then(function (response) {
+        return response.json() // แปลงข้อมูลที่ได้เป็น json
+        })
+        .then(function (data) {
+        console.log(data[0]['new_case']); // แสดงข้อมูล JSON จาก then ข้างบน
+        })
+
+        // // ใช้ร่วมกับ Async & await
+        async function getDataAPI() {
+            let response = await fetch(url_api);
+            //console.log(response);
+            let data = await response.json();
+            return data;
+        }
+        getDataAPI().then(data => console.log(data[0]['new_case']));
+
+        //วิธีที่ 4 Library Axios
+        axios.get(url_api).then(res => {
+            console.log(res.data[0]['new_case'])
+        }).catch(error => {
+            console.log(error);
+        })
+    </script>
+</body>
+</html>
