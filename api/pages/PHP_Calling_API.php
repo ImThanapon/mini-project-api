@@ -18,33 +18,6 @@
 
 </head>
 <body>
-    <div class="warpper">
-        <!-- Navbar -->
-        <nav class="ml-3 navbar navbar-expand navbar-white navbar-light">
-            <!-- Left navbar links -->
-            <ul class="navbar-nav">
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="index.php" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="JS_Calling_API.html" class="nav-link">JavaScript</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="PHP_Calling_API.php" class="nav-link">PHP</a>
-            </li>
-            <li class="nav-item d-none d-sm-inline-block">
-                <a href="covid_api.php" class="nav-link">Covid</a>
-            </li>
-            </ul>
-            <!-- Right navbar links -->
-            <ul class="navbar-nav ml-auto">
-            </ul>
-        </nav>
-        <!-- /.navbar -->
-    </div>
-
-    <div class="login-page">
-        <div class="login-box">
         <?php
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -71,8 +44,6 @@
         echo $response;
         }
     ?>
-        </div>
-    </div>    
     
 </body>
 </html>

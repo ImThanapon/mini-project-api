@@ -125,12 +125,13 @@
 
             for (let i = 0; i < d.length; i++) {
                     document.getElementById('info').innerHTML += 
-                        '<tr>'+
-                            '<td>'+ d[i].id +'</td>'+
-                            '<td>'+ d[i].first_name +'</td>'+
-                            '<td>'+ d[i].last_name +'</td>'+
-                            '<td>'+ d[i].email_address +'</td>'+
-                        '</tr>';
+                        `<tr>
+                            <td> ${d[i].id} </td>
+                            <td> ${d[i].first_name} </td>
+                            <td> ${d[i].last_name} </td>
+                            <td> ${d[i].email_address} </td>
+                        </tr>
+                        `;
             }
 
         }

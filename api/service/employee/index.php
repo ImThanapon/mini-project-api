@@ -4,11 +4,11 @@
     $sql = "SELECT * FROM employees"; 
 
     $statement = $conn->query($sql); //query ประมวลผลข้อมูลจาก conn ด้วย sql
-    3
-    iooooook
-    .
+    $statement->execute(); //ทำการดึงข้อมูล
 
-    // $result = $statement->fetchAll(PDO::FETCH_ASSOC); //ดึงข้อมูลออกไปใช้งานด้วย fetchAll
+    $result = $statement->fetchAll(PDO::FETCH_ASSOC); //ดึงข้อมูลออกไปใช้งานด้วย fetchAll
 
-    // print_r($result);
+    echo '<pre>';
+    print_r($result);
+    echo '</pre>';
 ?>
