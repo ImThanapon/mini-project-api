@@ -1,3 +1,44 @@
+<?php
+
+    //Calling API ด้วย file_get_contents()
+
+    $get_data = file_get_contents('https://covid19.ddc.moph.go.th/api/Cases/today-cases-all');
+    $json_data = json_decode($get_data);
+
+
+    $new_case = $json_data[0]->new_case;
+    $total_case = $json_data[0]->total_case;
+    $new_death = $json_data[0]->new_death;
+    $total_death = $json_data[0]->total_death;
+    $new_recovered = $json_data[0]->new_recovered;
+    $update_date = $json_data[0]->update_date;
+
+
+    //Calling API ด้วย Library cURL
+
+    $url = 'https://covid19.ddc.moph.go.th/api/Cases/today-cases-all'; 
+    try{
+        $ch = curl_init(); 
+        curl_setopt( $ch, CURLOPT_URL, $url );  
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true);
+        $content = curl_exec( $ch );
+        curl_close($ch);
+        $data = json_decode($content);
+        
+        $curl_new_case = $data[0]->new_case;
+        $curl_total_case = $data[0]->total_case;
+        $curl_new_death = $data[0]->new_death;
+        $curl_total_death = $data[0]->total_death;
+        $curl_new_recovered = $data[0]->new_recovered;
+        
+    }catch(Exception $ex){
+        echo $ex;
+    }
+    
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -50,11 +91,12 @@
                 <div class="container">
                     <div class="row mb-2">
                         <div class="col-sm-6">
-                            <h1 class="m-0"> Dashboard Covid 2019 <small>Calling API</small></h1>
+                            <h1 class="m-0">Today Covid 2019 <small>Calling API <br><b> <?php echo $update_date ?></b></small></h1>
                         </div><!-- /.col -->
-                        <div class="col-sm-6">
-
-                            </ol>
+                        <div class="col-sm-6 text-right">
+                                <span class="info-box-text">ผู้ป่วยสะสม</span>
+                                <span class="info-box-number"><br><h1><?php echo number_format($total_case) ?></h1> ราย</span></span>
+                            <!-- /.col -->
                         </div><!-- /.col -->
                     </div><!-- /.row -->
                 </div><!-- /.container-fluid -->
@@ -63,17 +105,18 @@
 
             <!-- Main content -->
             <div class="content">
+                
                 <div class="container">
-
+                
                     <!-- widgets -->
                     <div class="row">
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box">
-                            <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
+                            <span class="info-box-icon bg-info"><i class="fas fa-bed"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Messages</span>
-                                <span class="info-box-number">1,410</span>
+                                <span class="info-box-text">ผู้ติดเชื้อใหม่</span>
+                                <span class="info-box-number"><?php echo number_format($new_case) ?></span>                                
                             </div>
                             <!-- /.info-box-content -->
                             </div>
@@ -82,11 +125,11 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box">
-                            <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
+                            <span class="info-box-icon bg-success"><i class="far fa-smile"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Bookmarks</span>
-                                <span class="info-box-number">410</span>
+                                <span class="info-box-text">รักษาหาย</span>
+                                <span class="info-box-number"><?php echo number_format($new_recovered) ?></span>
                             </div>
                             <!-- /.info-box-content -->
                             </div>
@@ -95,11 +138,11 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box">
-                            <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
+                            <span class="info-box-icon bg-danger"><i class="far fa-dizzy"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Uploads</span>
-                                <span class="info-box-number">13,648</span>
+                                <span class="info-box-text">ผู้เสียชีวิต</span>
+                                <span class="info-box-number"><?php echo number_format($new_death) ?></span>
                             </div>
                             <!-- /.info-box-content -->
                             </div>
@@ -108,24 +151,11 @@
                         <!-- /.col -->
                         <div class="col-md-3 col-sm-6 col-12">
                             <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
+                            <span class="info-box-icon bg-dark"><i class="fas fa-book-dead"></i></span>
 
                             <div class="info-box-content">
-                                <span class="info-box-text">Likes</span>
-                                <span class="info-box-number">93,139</span>
-                            </div>
-                            <!-- /.info-box-content -->
-                            </div>
-                            <!-- /.info-box -->
-                        </div>
-                        <!-- /.col -->
-                        <div class="col-md-3 col-sm-6 col-12">
-                            <div class="info-box">
-                            <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-                            <div class="info-box-content">
-                                <span class="info-box-text">Likes</span>
-                                <span class="info-box-number">93,139</span>
+                                <span class="info-box-text">เสียชีวิตสะสม</span>
+                                <span class="info-box-number"><?php echo number_format($total_death) ?></span>
                             </div>
                             <!-- /.info-box-content -->
                             </div>
@@ -135,7 +165,76 @@
                         
                     </div>
                     <!-- /.row -->
+                    <div class="text-right">
+                        เรียก API ด้วยฟังก์ชัน <b>file_get_contents()</b>  <br>
+                    </div>
+                   
+                    <!-- end widgets -->
 
+
+
+
+                    <!-- widgets -->
+                    <div class="row mt-5">
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                            <span class="info-box-icon bg-info"><i class="fas fa-bed"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">ผู้ติดเชื้อใหม่</span>
+                                <span class="info-box-number"><?php echo number_format($curl_new_case) ?></span>                                
+                            </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                            <span class="info-box-icon bg-success"><i class="far fa-smile"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">รักษาหาย</span>
+                                <span class="info-box-number"><?php echo number_format($curl_new_recovered) ?></span>
+                            </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                            <span class="info-box-icon bg-danger"><i class="far fa-dizzy"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">ผู้เสียชีวิต</span>
+                                <span class="info-box-number"><?php echo number_format($curl_new_death) ?></span>
+                            </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="info-box">
+                            <span class="info-box-icon bg-dark"><i class="fas fa-book-dead"></i></span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">เสียชีวิตสะสม</span>
+                                <span class="info-box-number"><?php echo number_format($curl_total_death) ?></span>
+                            </div>
+                            <!-- /.info-box-content -->
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
+                        <!-- /.col -->
+                        
+                    </div>
+                    <!-- /.row -->
+                    <div class="text-right">
+                        เรียก API ด้วย <b>cURL Library</b>  <br>
+                    </div>
+                   
                     <!-- end widgets -->
  
                 </div><!-- /.container-fluid -->

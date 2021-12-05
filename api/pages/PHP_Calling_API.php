@@ -1,49 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PHP API Call</title>
-    
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/icheck-bootstrap/3.0.1/icheck-bootstrap.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/3.2.0-rc/css/adminlte.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+<!-- แบบ cURL -->
+<?php
 
-</head>
-<body>
-        <?php
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => "https://opend.data.go.th/get-ckan/datastore_search?resource_id=1c2f6045-c600-410a-995c-a37a88594ab4";,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "GET",
-        CURLOPT_HTTPHEADER => array(
-        "api-key: ek9M96dFKxk0Zmwoc4unwR1byXigXcqo"
-        )
-        ));
+    $url = 'http://localhost/DEENA/PDO-CRUD/service/category/'; 
+    try{
+        $ch = curl_init(); 
+        // curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false); 
+        // curl_setopt( $ch, CURLOPT_CUSTOMREQUEST, 'GET'); // กำหนด Method เป็น GET
+        curl_setopt( $ch, CURLOPT_URL, $url );  // กำหนด url ของ api
+        curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true); // กำหนด True คือ response ค่ากลับมาเป็น String ซึ่งเราจะนำไปแปลงเป็น JSON อีกที
+        $content = curl_exec( $ch );
+        curl_close($ch);
+        $data = json_decode($content);
+        print_r($data);
         
-        $response = curl_exec($curl);
-        $err = curl_error($curl);
-        
-        curl_close($curl);
-        
-        if ($err) {
-        echo "cURL Error #:" . $err;
-        } else {
-        echo $response;
-        }
-    ?>
+    }catch(Exception $ex){
     
-</body>
-</html>
+        echo $ex;
+    }
+    
+?>
+<!-- แบบ file_get_contents() -->
+<?php
+    $get_data = file_get_contents('https://lotto.api.rayriffy.com/latest');
+    $json_data = json_decode($get_data);
+    echo '<pre>';
+    print_r($json_data);
+    echo '</pre>';
+?>
+
+
+<!-- แบบ Guzzle อาศัย composer -->
+<!-- แบบ SDKs เป็น Library PHP -->
