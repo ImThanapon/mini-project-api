@@ -14,7 +14,6 @@
         print_r($data);
         
     }catch(Exception $ex){
-    
         echo $ex;
     }
     
